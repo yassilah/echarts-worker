@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <base href="./dist/" />
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + TS</title>
+    <script src="echarts-web-worker.umd.cjs"></script>
+  </head>
+  <body>
+    <div  style="width: 100%; height: 600px;">
+        <canvas  style="width: 100%; height: 100%;" class="myChart"></canvas>
+    </div>
+    <div  style="width: 100%; height: 600px;">
+        <canvas  style="width: 100%; height: 100%;" class="myChart"></canvas>
+    </div>
+    <div  style="width: 100%; height: 600px;">
+        <canvas  style="width: 100%; height: 100%;" class="myChart"></canvas>
+    </div>
+    <div  style="width: 100%; height: 600px;">
+        <canvas  style="width: 100%; height: 100%;" class="myChart"></canvas>
+    </div>
+    <div  style="width: 100%; height: 600px;">
+        <canvas  style="width: 100%; height: 100%;" class="myChart"></canvas>
+    </div>
+    <div  style="width: 100%; height: 600px;">
+        <canvas  style="width: 100%; height: 100%;" class="myChart"></canvas>
+    </div>
+
+    <button onclick="showLoading()">Loading</button>
+    <button onclick="hideLoading()">hideLoading</button>
+
+    <button onclick="setOption1()">setOption1</button>
+    <button onclick="setOption2()">setOption2</button>
+
+    <button onclick="setOption3()">setOption3</button>
+
+    <script>
+
+        const charts = document.querySelectorAll('.myChart');
+        const instances = Array.from(charts).map(chart => {
+            return echartsWebWorker.init(chart);
+        })
+
+
+        setOption1()
+
+        function showLoading() {
+            instances.forEach(chart => {
+                chart.showLoading();
+            })
+        }
+
+        function hideLoading() {
+            instances.forEach(chart => {
+                chart.hideLoading();
+            })
+        }
+
+        function setOption1() {  
+            instances.forEach(chart => {
+            chart.setOption({
+                title: {
+                    text: 'Some bar chart with random values'
+                },
+                xAxis: {type:'category'},
+                tooltip: {},
+                yAxis: {},
+                series: [{
+                    type: 'bar',
+                    data: Array.from({length: 20}, (_, i) => ({ value: Math.random() * 100, name: i }))
+                }]
+            }, true);
+        })
+        }
+
+        function setOption2() {
+            instances.forEach(chart => {
+            chart.setOption({
+                title: {
+                    text: 'Some line chart with random values'
+                },
+                xAxis: {type:'category'},
+                yAxis: {},
+                tooltip: {},
+                series: [{
+                    type: 'line',
+                    data: Array.from({length: 20}, (_, i) => ({ value: Math.random() * 100, name: i }))
+                }]
+            }, true);
+        })
+        }
+
+        function setOption3() {
+            instances.forEach(chart => {
+            chart.setOption({
+                title: {
+                    text: 'Some pie chart with random values'
+                },
+                tooltip: {},
+                series: [{
+                    type: 'pie',
+                    data: Array.from({length: 20}, (_, i) => ({ value: Math.random() * 100, name: i }))
+                }]
+            }, true);
+        })
+        }
+    </script>
+  </body>
+</html>
