@@ -1,11 +1,12 @@
 {
   "name": "echarts-worker",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "exports": {
     ".": "./dist/echarts-worker.js"
   },
   "types": "./dist/index.d.ts",
+  "files": ["./dist"],
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
