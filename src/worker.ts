@@ -1,4 +1,4 @@
-importScripts('https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js')
+import 'https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js'
 
 import type { ECharts, EChartsOption, init, zrender } from 'echarts'
 
@@ -15,8 +15,7 @@ type Message =
       }
     | {
           type: 'resize'
-          width: number
-          height: number
+          args: Parameters<ECharts['resize']>
       }
     | {
           type: 'render'
@@ -57,11 +56,8 @@ self.echarts.setPlatformAPI({
 /**
  * Resize the chart with the given width and height.
  */
-function resize(width: number, height: number) {
-    instance?.resize({
-        width,
-        height
-    })
+function resize(...args: Parameters<ECharts['resize']>) {
+    instance?.resize(...args)
 }
 
 /**
@@ -143,7 +139,7 @@ function onMessageHandler({ data }: MessageEvent<Message>) {
         case 'init':
             return initialize(data.canvas, data.theme, data.option)
         case 'resize':
-            return resize(data.width, data.height)
+            return resize(...data.args)
         case 'render':
             return render(...data.args)
         case 'event':

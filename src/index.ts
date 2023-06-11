@@ -1,6 +1,6 @@
 import type { ECharts, init as baseInit } from 'echarts'
 
-import EChartsWorker from './worker?worker&inline'
+import EChartsWorker from './worker?worker&url'
 
 type Theme = Parameters<typeof baseInit>[1]
 type InitOption = Parameters<typeof baseInit>[2]
@@ -33,8 +33,8 @@ export function init(
 
     const { width, height } = canvas.getBoundingClientRect()
 
-    offscreen.width = width * devicePixelRatio
-    offscreen.height = height * devicePixelRatio
+    offscreen.width = width * option.devicePixelRatio
+    offscreen.height = height * option.devicePixelRatio
 
     worker.postMessage(
         {
@@ -49,7 +49,7 @@ export function init(
     registerMouseEvents(worker, canvas)
 
     return {
-        resize: resize.bind(worker),
+        resize: createResizer(worker, canvas),
         setOption: setOption.bind(worker),
         dispose: dispose.bind(worker),
         showLoading: showLoading.bind(worker),
@@ -63,7 +63,9 @@ export function init(
  */
 function getWorker(canvas: HTMLCanvasElement) {
     if (!instanceMap.has(canvas)) {
-        const worker = new EChartsWorker()
+        const worker = new Worker(EChartsWorker, {
+            type: 'module'
+        })
         instanceMap.set(canvas, worker)
     }
 
@@ -169,14 +171,20 @@ function registerMouseEvents(worker: Worker, canvas: HTMLCanvasElement) {
 }
 
 /**
- * Resize the canvas.
+ * Create a canvas resizer for the instance.
  */
-function resize(this: Worker, width: number, height: number) {
-    this.postMessage({
-        type: 'resize',
-        width,
-        height
-    })
+function createResizer(worker: Worker, canvas: HTMLCanvasElement) {
+    return (...args: Parameters<ECharts['resize']>) => {
+        args[0] ??= {}
+
+        args[0].width ??= canvas.getBoundingClientRect().width
+        args[0].height ??= canvas.getBoundingClientRect().height
+
+        worker.postMessage({
+            type: 'resize',
+            args
+        })
+    }
 }
 
 /**
