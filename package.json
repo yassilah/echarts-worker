@@ -1,12 +1,21 @@
 {
   "name": "echarts-worker",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "module",
   "exports": {
-    ".": "./dist/echarts-worker.js"
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/echarts-worker.js"
+      },
+      "require": "./dist/echarts-worker.umd.cjs"
+    }
   },
+  "main": "./dist/echarts-worker.js",
   "types": "./dist/index.d.ts",
-  "files": ["./dist"],
+  "files": [
+    "./dist"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

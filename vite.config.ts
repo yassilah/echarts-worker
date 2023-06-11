@@ -12,5 +12,7 @@ export default defineConfig({
     worker: {
         format: 'es'
     },
-    plugins: [dts()]
+    plugins: [dts({
+        insertTypesEntry: true,
+    })]
 })
