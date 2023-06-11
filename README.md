@@ -13,10 +13,7 @@ pnpm add echarts-worker
 
 ## Usage
 
-The package does not include the `echarts` package as it is being imported from [jsdelivr](https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js) inside the Worker. Besides this, usage should be identical to the regular echarts package with a few exceptions:
-
-- the first argument of the `init` function has to be an HTMLCanvasElement to transfer it off-screen;
-- at the moment, using functions as options is not supported as they cannot be serialized.
+The package does not include the `echarts` package as it is being imported from [jsdelivr](https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js) inside the Worker. Besides this, usage should be identical to the regular echarts package except that the first argument of the `init` function has to be an HTMLCanvasElement to transfer it off-screen;
 
 ```ts
 import { init } from 'echarts-worker'

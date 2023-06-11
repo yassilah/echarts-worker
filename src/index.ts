@@ -1,4 +1,5 @@
 import type { ECharts, init as baseInit } from 'echarts'
+import { stringify } from 'telejson'
 
 import EChartsWorker from './worker?worker&url'
 
@@ -176,7 +177,6 @@ function registerMouseEvents(worker: Worker, canvas: HTMLCanvasElement) {
 function createResizer(worker: Worker, canvas: HTMLCanvasElement) {
     return (...args: Parameters<ECharts['resize']>) => {
         args[0] ??= {}
-
         args[0].width ??= canvas.getBoundingClientRect().width
         args[0].height ??= canvas.getBoundingClientRect().height
 
@@ -193,7 +193,7 @@ function createResizer(worker: Worker, canvas: HTMLCanvasElement) {
 function setOption(this: Worker, ...args: Parameters<ECharts['setOption']>) {
     this.postMessage({
         type: 'render',
-        args
+        args: stringify(args)
     })
 }
 

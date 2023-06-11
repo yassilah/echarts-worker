@@ -26,20 +26,22 @@
           type: 'category'
         },
         yAxis: {},
-        series: []
-      })
-
-      setInterval(() => {
-        instance.setOption({
-          series: [{
+        series: [{
             type: Math.random()>.5?'bar':'line',
             data: Array.from({ length: 10 }, (_, i) => ({ name: i, value: Math.random() * 100 })),
+            label: {
+              show: true,
+              position: 'top',
+              formatter(params) {
+                return `${params.name}: ${params.value}`
+              }
+            },
             universalTransition: {
               enabled: true
             }
           }]
-        })
-      }, 1000)
+      })
+
 
 
       const observer = new ResizeObserver(() => {

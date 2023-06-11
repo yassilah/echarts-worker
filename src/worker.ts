@@ -1,6 +1,7 @@
 import 'https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js'
 
 import type { ECharts, EChartsOption, init, zrender } from 'echarts'
+import { parse } from 'telejson'
 
 type InitOption = Parameters<typeof init>[2]
 
@@ -141,7 +142,11 @@ function onMessageHandler({ data }: MessageEvent<Message>) {
         case 'resize':
             return resize(...data.args)
         case 'render':
-            return render(...data.args)
+            return render(
+                ...(parse(data.args as unknown as string) as Parameters<
+                    ECharts['setOption']
+                >)
+            )
         case 'event':
             return handleEvent(data.event)
         case 'dispose':

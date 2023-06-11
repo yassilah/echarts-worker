@@ -1,6 +1,6 @@
 {
   "name": "echarts-worker",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -18,5 +18,8 @@
     "rules": {
       "autofix/no-unused-vars": "off"
     }
+  },
+  "dependencies": {
+    "telejson": "^7.1.0"
   }
 }
