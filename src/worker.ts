@@ -1,4 +1,4 @@
-import 'https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js'
+importScripts('https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js')
 
 import type { ECharts, EChartsOption, init, zrender } from 'echarts'
 import { parse } from 'telejson'
@@ -136,6 +136,7 @@ function handleEvent(event: MouseEvent) {
  * Handle the message from the main thread.
  */
 function onMessageHandler({ data }: MessageEvent<Message>) {
+    console.log('received message', data)
     switch (data.type) {
         case 'init':
             return initialize(data.canvas, data.theme, data.option)

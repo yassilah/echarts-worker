@@ -1,7 +1,7 @@
 import type { ECharts, init as baseInit } from 'echarts'
 import { stringify } from 'telejson'
 
-import EChartsWorker from './worker?worker&url'
+import EChartsWorker from './worker?worker&inline'
 
 type Theme = Parameters<typeof baseInit>[1]
 type InitOption = Parameters<typeof baseInit>[2]
@@ -55,6 +55,7 @@ export function init(
         dispose: dispose.bind(worker),
         showLoading: showLoading.bind(worker),
         hideLoading: hideLoading.bind(worker),
+        worker,
         ...getEventBinders(worker)
     }
 }
@@ -64,9 +65,7 @@ export function init(
  */
 function getWorker(canvas: HTMLCanvasElement) {
     if (!instanceMap.has(canvas)) {
-        const worker = new Worker(EChartsWorker, {
-            type: 'module'
-        })
+        const worker = new EChartsWorker()
         instanceMap.set(canvas, worker)
     }
 
