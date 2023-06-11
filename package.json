@@ -1,7 +1,11 @@
 {
   "name": "echarts-worker",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
+  "exports": {
+    ".": "./dist/echarts-worker.js"
+  },
+  "types": "./dist/index.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -11,7 +15,8 @@
     "@apenhet/eslint-config": "^1.3.0",
     "echarts": "^5.4.2",
     "typescript": "^5.0.2",
-    "vite": "^4.3.9"
+    "vite": "^4.3.9",
+    "vite-plugin-dts": "^2.3.0"
   },
   "eslintConfig": {
     "extends": "@apenhet",
