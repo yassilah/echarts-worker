@@ -136,7 +136,6 @@ function handleEvent(event: MouseEvent) {
  * Handle the message from the main thread.
  */
 function onMessageHandler({ data }: MessageEvent<Message>) {
-    console.log('received message', data)
     switch (data.type) {
         case 'init':
             return initialize(data.canvas, data.theme, data.option)
